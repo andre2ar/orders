@@ -9,3 +9,6 @@ down:
 
 wire:
 	wire ./cmd/ordersystem
+
+proto:
+	protoc --go_out=. --go-grpc_out=. internal/infra/grpc/protofiles/order.proto

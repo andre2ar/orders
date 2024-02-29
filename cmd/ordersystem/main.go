@@ -51,11 +51,11 @@ func main() {
 	go restServer.Start()
 
 	createOrderUseCase := NewCreateOrderUseCase(db, eventDispatcher)
-	//listOrderUseCase := NewListOrdersUseCase(db)
+	listOrderUseCase := NewListOrdersUseCase(db)
 
 	grpcServer := grpc.NewServer()
-	createOrderService := service.NewOrderService(*createOrderUseCase)
-	pb.RegisterOrderServiceServer(grpcServer, createOrderService)
+	orderService := service.NewOrderService(*createOrderUseCase, *listOrderUseCase)
+	pb.RegisterOrderServiceServer(grpcServer, orderService)
 	reflection.Register(grpcServer)
 
 	fmt.Println("Starting gRPC server on port", appConfigs.GRPCServerPort)
