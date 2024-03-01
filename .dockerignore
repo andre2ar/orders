@@ -1,0 +1,4 @@
+.docker/dbdata
+.git
+.vscode
+.idea

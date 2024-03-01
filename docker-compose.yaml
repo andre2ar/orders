@@ -1,18 +1,42 @@
 version: '3'
 
 services:
+  orders-server:
+    build: .
+    container_name: orders-server
+    command: bash .docker/start.sh
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+      - "50051:50051"
+      - "8080:8080"
+    networks:
+      - orders-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - orders-mysql
+      - orders-rabbitmq
   orders-mysql:
-    image: mysql:5.7
+    build: ./.docker/mysql
     container_name: orders-mysql
     restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    tty: true
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: orders
       MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
+    cap_add:
+      - SYS_NICE
     volumes:
-      - .docker/mysql:/var/lib/mysql
+      - ./.docker/dbdata:/var/lib/mysql
+      - ./.docker/mysql:/docker-entrypoint-initdb.d
+    networks:
+      - orders-network
 
   orders-rabbitmq:
     image: rabbitmq:3-management
@@ -24,3 +48,10 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - orders-network
+    cap_add:
+      - SYS_NICE
+networks:
+  orders-network:
+    driver: bridge

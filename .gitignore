@@ -1,2 +1,4 @@
 .idea
-.docker/mysql
+.vscode
+.docker/dbdata
+/cmd/ordersystem/app.env
