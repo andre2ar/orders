@@ -12,3 +12,6 @@ wire:
 
 proto:
 	protoc --go_out=. --go-grpc_out=. internal/infra/grpc/protofiles/order.proto
+
+graphql:
+	go run github.com/99designs/gqlgen generate
