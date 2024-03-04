@@ -1,3 +1,5 @@
+#More information about how to run the software can be found on README.md
+
 run:
 	go run ./cmd/ordersystem/main.go ./cmd/ordersystem/wire_gen.go
 

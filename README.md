@@ -10,6 +10,10 @@ To start the server is necessary to run:
 
 ``docker-compose up``
 
+Or:
+
+``make up``
+
 REST API can be found at:
 
 - localhost:8000
